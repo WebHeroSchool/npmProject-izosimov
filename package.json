@@ -1,0 +1,21 @@
+{
+  "name": "npmproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "hello": "echo hello",
+    "create": "mkdir build",
+    "delete": "rm -rf build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebHeroSchool/npmProject-izosimov.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WebHeroSchool/npmProject-izosimov/issues"
+  },
+  "homepage": "https://github.com/WebHeroSchool/npmProject-izosimov#readme"
+}
