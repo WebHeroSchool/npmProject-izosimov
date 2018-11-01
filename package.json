@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/WebHeroSchool/npmProject-izosimov#readme",
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0"
   }
 }
