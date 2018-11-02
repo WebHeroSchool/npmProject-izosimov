@@ -42,7 +42,7 @@ gulp.task('build-css', () => {
         .pipe(gulp.dest(paths.build.styles));
 });
 
-gulp.task('default', ['build-js', 'build-css']);
+gulp.task('build', ['build-js', 'build-css']);
 
 gulp.task('browser-sync', () => {
     browserSync.init({
@@ -56,3 +56,6 @@ gulp.task('browser-sync', () => {
 
 gulp.task('js-watch', ['build-js'], () => browserSync.reload());
 gulp.task('css-watch', ['build-css'], () => browserSync.reload());
+
+gulp.task('prod', ['build']);
+gulp.task('dev', ['build', 'browser-sync']);
