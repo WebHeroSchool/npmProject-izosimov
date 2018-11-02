@@ -5,7 +5,7 @@ const uglify = require('gulp-uglify');
 const cssnano = require('gulp-cssnano');
 const sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('build', () => {
+gulp.task('build-js', () => {
     gulp.src('scripts/*.js')
         .pipe(sourcemaps.init())
             .pipe(concat('index.js'))
@@ -26,4 +26,4 @@ gulp.task('build-css', () => {
         .pipe(gulp.dest('build/styles'));
 });
 
-gulp.task('default', ['build', 'build-css'])
+gulp.task('default', ['build-js', 'build-css']);
