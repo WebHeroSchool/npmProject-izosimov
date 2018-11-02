@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "hello": "echo hello",
+    "start": "gulp dev",
+    "build": "gulp prod",
+    "clean": "clean-build",
     "create": "mkdir build",
     "delete": "rm -rf build"
   },
@@ -24,8 +27,10 @@
     "browser-sync": "^2.26.3",
     "gulp": "^3.9.1",
     "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.3",
+    "gulp-env": "^0.4.0",
     "gulp-if": "^2.0.2",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.1"
