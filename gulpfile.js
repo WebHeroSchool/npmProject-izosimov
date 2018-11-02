@@ -4,7 +4,6 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 
 gulp.task('build', () => {
-    gulp.src('styles.css').pipe(gulp.dest('build/styles'));
     gulp.src(['scripts.js', 'index.js'])
         .pipe(concat('index.js'))
         .pipe(babel({
