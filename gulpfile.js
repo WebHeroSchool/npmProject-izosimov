@@ -13,3 +13,7 @@ gulp.task('build', () => {
         .pipe(uglify())
         .pipe(gulp.dest('build/scripts'));
 });
+
+gulp.task('build-css', () => {
+    gulp.src('styles.css').pipe(gulp.dest('build/styles'));
+});
