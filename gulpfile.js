@@ -4,7 +4,7 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const cssnano = require('gulp-cssnano')
 
-gulp.task('build', () => {
+gulp.task('build-js', () => {
     gulp.src('scripts/*.js')
         .pipe(concat('index.js'))
         .pipe(babel({
@@ -20,3 +20,5 @@ gulp.task('build-css', () => {
         .pipe(cssnano())
         .pipe(gulp.dest('build/styles'));
 });
+
+gulp.task('build', ['build-js', 'build-css']);
