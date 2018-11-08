@@ -6,6 +6,12 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const cssnano = require('gulp-cssnano');
 const postcss = require('gulp-postcss');
+const autoprefixer = require('autoprefixer');
+const cssnext = require('postcss-cssnext');
+const assets  = require('postcss-assets');
+const short = require('postcss-short');
+const nested = require('postcss-nested');
+
 const gulpif = require('gulp-if');
 const sourcemaps = require('gulp-sourcemaps');
 const browserSync = require('browser-sync').create();
@@ -48,7 +54,18 @@ gulp.task('build-js', () => {
 });
 
 gulp.task('build-css', () => {
-    const plugins = [];
+    const plugins = [
+        autoprefixer({
+            browsers: ['last 1 version']
+        }),
+        cssnext,
+        assets({
+            loadPaths: ['images/'],
+            relativeTo: 'styles/'
+        }),
+        short,
+        nested
+    ];
 
     gulp.src(paths.src.styles)
         .pipe(sourcemaps.init())

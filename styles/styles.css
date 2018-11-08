@@ -1,4 +1,39 @@
+:root {
+    --MyColor: #ff0dff;
+}
+
 body {
     max-width: 1440px;
     background-color: lightgreen;
+}
+
+/* autoprefixer */
+::placeholder {
+    color: red;
+}
+
+/* postcss-next */
+.text {
+    & span {
+        color: white;
+    }
+}
+
+/* postcss-short */
+.image {
+    size: 100px;
+}
+
+/* postcss-assets */
+.bg {
+    width: width('image2.png', 5);
+    height: height('image2.png', 5);
+    background-size: size('image2.png', 5);
+    background-image: resolve('image2.png');
+    background-repeat: no-repeat;
+}
+
+/* postcss-nested */
+.link {
+    color: var(--MyColor);
 }
