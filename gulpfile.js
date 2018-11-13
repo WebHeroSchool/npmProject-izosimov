@@ -7,10 +7,14 @@ const uglify = require('gulp-uglify');
 const cssnano = require('gulp-cssnano');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
-const cssnext = require('postcss-cssnext');
+const postcssPresetEnv = require('postcss-preset-env');
 const assets  = require('postcss-assets');
 const short = require('postcss-short');
 const nested = require('postcss-nested');
+
+const glob = require("glob");
+const handlebars = require('gulp-compile-handlebars');
+const rename = require("gulp-rename");
 
 const gulpif = require('gulp-if');
 const sourcemaps = require('gulp-sourcemaps');
@@ -18,17 +22,20 @@ const browserSync = require('browser-sync').create();
 
 const paths = {
     src: {
-        scripts: 'scripts/*.js',
-        styles: 'styles/*.css'
+        dir: 'src',
+        scripts: 'src/scripts/*.js',
+        styles: 'src/styles/*.css'
     },
     build: {
+        dir: 'build/',
         scripts: 'build/scripts',
         styles: 'build/styles'
     },
     buildNames: {
         scripts: 'scripts.min.js',
         styles: 'styles.min.css'
-    }
+    },
+    templates: 'src/templates/**/*.hbs'
 }
 
 env({
@@ -39,6 +46,22 @@ env({
 gulp.task('clean', function () {
     gulp.src('build', {read: false})
         .pipe(clean());
+});
+
+gulp.task('compile', () => {
+    glob(paths.templates, (err, files) => {
+        if (!err) {
+            const options = {
+                ignorePartials: true,
+                batch: files.map(item => item.slice(0, item.lastIndexOf('/')))
+            };
+
+            gulp.src('src/templates/index.hbs')
+                .pipe(handlebars({}, options))
+                .pipe(rename('index.html'))
+                .pipe(gulp.dest(paths.build.dir))
+        }
+    });
 });
 
 gulp.task('build-js', () => {
@@ -58,7 +81,7 @@ gulp.task('build-css', () => {
         autoprefixer({
             browsers: ['last 1 version']
         }),
-        cssnext,
+        postcssPresetEnv,
         assets({
             loadPaths: ['images/'],
             relativeTo: 'styles/'
@@ -76,7 +99,7 @@ gulp.task('build-css', () => {
         .pipe(gulp.dest(paths.build.styles));
 });
 
-gulp.task('build', ['build-js', 'build-css']);
+gulp.task('build', ['build-js', 'build-css', 'compile']);
 
 gulp.task('browser-sync', () => {
     browserSync.init({
