@@ -15,6 +15,7 @@ const nested = require('postcss-nested');
 const glob = require("glob");
 const handlebars = require('gulp-compile-handlebars');
 const rename = require("gulp-rename");
+const templateContext = require("./src/data.json");
 
 const gulpif = require('gulp-if');
 const sourcemaps = require('gulp-sourcemaps');
@@ -57,7 +58,7 @@ gulp.task('compile', () => {
             };
 
             gulp.src('src/templates/index.hbs')
-                .pipe(handlebars({}, options))
+                .pipe(handlebars(templateContext, options))
                 .pipe(rename('index.html'))
                 .pipe(gulp.dest(paths.build.dir))
         }
