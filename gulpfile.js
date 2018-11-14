@@ -54,7 +54,11 @@ gulp.task('compile', () => {
         if (!err) {
             const options = {
                 ignorePartials: true,
-                batch: files.map(item => item.slice(0, item.lastIndexOf('/')))
+                batch: files.map(item => item.slice(0, item.lastIndexOf('/'))),
+                helpers: {
+                    capitals: str => str.toUpperCase(),
+                    sum: (a, b) => a + b
+                }
             };
 
             gulp.src('src/templates/index.hbs')
