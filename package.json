@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "gulp lint",
     "hello": "echo hello",
     "start": "gulp dev",
     "build": "gulp prod",
@@ -45,7 +46,9 @@
     "postcss-cssnext": "^3.1.0",
     "postcss-nested": "^4.1.0",
     "postcss-preset-env": "^6.4.0",
-    "postcss-short": "^5.0.0"
+    "postcss-reporter": "^6.0.0",
+    "postcss-short": "^5.0.0",
+    "stylelint": "^9.8.0"
   },
   "dependencies": {
     "glob": "^7.1.3",

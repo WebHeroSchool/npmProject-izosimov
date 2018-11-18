@@ -12,13 +12,16 @@ const assets  = require('postcss-assets');
 const short = require('postcss-short');
 const nested = require('postcss-nested');
 
-const glob = require("glob");
+const glob = require('glob');
 const handlebars = require('gulp-compile-handlebars');
-const rename = require("gulp-rename");
-const templateContext = require("./src/data.json");
+const rename = require('gulp-rename');
+const templateContext = require('./src/data.json');
 
 const eslint = require('gulp-eslint');
-const rulesScripts = require("./eslintrc.json");
+const stylelint = require('stylelint');
+const reporter = require('postcss-reporter');
+const rulesScripts = require('./eslintrc.json');
+const rulesStyles = require('./stylelintrc.json');
 
 const gulpif = require('gulp-if');
 const sourcemaps = require('gulp-sourcemaps');
@@ -41,7 +44,8 @@ const paths = {
     },
     templates: 'src/templates/**/*.hbs',
     lint: {
-        scripts: ['**/*.js', '!node_modules/**/*', '!build/**/*']
+        scripts: ['**/*.js', '!node_modules/**/*', '!build/**/*'],
+        styles: ['**/*.css', '!node_modules/**/*', '!build/**/*']
     }
 };
 
@@ -122,10 +126,23 @@ gulp.task('browser-sync', () => {
     gulp.watch(paths.src.styles, ['css-watch']);
 });
 
+gulp.task('lint', ['eslint', 'stylelint']);
+
 gulp.task('eslint', () => {
     gulp.src(paths.lint.scripts)
         .pipe(eslint(rulesScripts))
         .pipe(eslint.format());
+});
+
+gulp.task('stylelint', () => {
+    gulp.src(paths.lint.styles)
+        .pipe(postcss([
+            stylelint(rulesStyles),
+            reporter({
+                clearReportedMessages: true,
+                throwError: false
+            })
+        ]));
 });
 
 gulp.task('js-watch', ['build-js'], () => browserSync.reload());
