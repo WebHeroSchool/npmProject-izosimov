@@ -131,7 +131,8 @@ gulp.task('lint', ['eslint', 'stylelint']);
 gulp.task('eslint', () => {
     gulp.src(paths.lint.scripts)
         .pipe(eslint(rulesScripts))
-        .pipe(eslint.format());
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 gulp.task('stylelint', () => {
