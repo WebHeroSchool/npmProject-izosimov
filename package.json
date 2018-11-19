@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "gulp lint",
+    "test": "gulp lint && exit 1",
     "hello": "echo hello",
     "start": "gulp dev",
     "build": "gulp prod",
@@ -12,6 +12,9 @@
     "create": "mkdir build",
     "delete": "rm -rf build"
   },
+  "pre-push": [
+      "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WebHeroSchool/npmProject-izosimov.git"
@@ -48,6 +51,7 @@
     "postcss-preset-env": "^6.4.0",
     "postcss-reporter": "^6.0.0",
     "postcss-short": "^5.0.0",
+    "pre-push": "^0.1.1",
     "stylelint": "^9.8.0"
   },
   "dependencies": {
