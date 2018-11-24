@@ -11,6 +11,8 @@ const postcssPresetEnv = require('postcss-preset-env');
 const assets  = require('postcss-assets');
 const short = require('postcss-short');
 const nested = require('postcss-nested');
+const imagemin = require('gulp-imagemin');
+const filter = require('gulp-filter');
 
 const glob = require('glob');
 const handlebars = require('gulp-compile-handlebars');
@@ -30,8 +32,8 @@ const browserSync = require('browser-sync').create();
 const paths = {
     src: {
         dir: 'src',
-        scripts: 'src/scripts/*.js',
-        styles: 'src/styles/*.css'
+        scripts: 'src/**/*.js',
+        styles: 'src/**/*.css'
     },
     build: {
         dir: 'build/',
@@ -98,8 +100,8 @@ gulp.task('build-css', () => {
         }),
         postcssPresetEnv,
         assets({
-            loadPaths: ['images/'],
-            relativeTo: 'styles/'
+            loadPaths: ['src/images/'],
+            relativeTo: 'src/styles/'
         }),
         short,
         nested
@@ -113,8 +115,6 @@ gulp.task('build-css', () => {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.build.styles));
 });
-
-gulp.task('build', ['build-js', 'build-css', 'compile']);
 
 gulp.task('browser-sync', () => {
     browserSync.init({
@@ -146,8 +146,29 @@ gulp.task('stylelint', () => {
         ]));
 });
 
-gulp.task('js-watch', ['build-js'], () => browserSync.reload());
-gulp.task('css-watch', ['build-css'], () => browserSync.reload());
+gulp.task('fonts', () => {
+    gulp.src('./src/fonts/**/*')
+        .pipe(filter(['*.woff', '*.woff2', '*.otf', '*.ttf']))
+        .pipe(gulp.dest(`${paths.build.dir}/fonts`));
+});
+
+gulp.task('image', () => {
+    gulp.src('src/images/**/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest(`${paths.build.dir}/images`));
+});
+
+gulp.task('watch', () => {
+    gulp.watch(paths.handlebars, ['compile']);
+    gulp.watch(paths.src.styles, ['build-css']);
+    gulp.watch(paths.src.scripts, ['build-js']);
+    gulp.watch('src/data.json')
+        .on('change', browserSync.reload);
+    gulp.watch(`${paths.buildDir}/**/*`)
+        .on('change', browserSync.reload);
+});
+
+gulp.task('build', ['build-js', 'build-css', 'compile', 'fonts', 'image']);
 
 gulp.task('clean-build', ['clean']);
 gulp.task('prod', ['build']);
